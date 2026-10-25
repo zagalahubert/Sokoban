@@ -1,0 +1,61 @@
+cmake_minimum_required(VERSION 3.20)
+project(SokobanGame LANGUAGES CXX)
+
+add_executable(SokobanGame
+    SokobanGame/src/Application.cpp
+    SokobanGame/src/Box.cpp
+    SokobanGame/src/Player.cpp
+    SokobanGame/src/Sokoban.cpp
+    SokobanGame/src/Box.h
+    SokobanGame/src/Player.h
+    SokobanGame/src/Sokoban.h
+)
+
+target_compile_features(SokobanGame PRIVATE cxx_std_20)
+set_target_properties(SokobanGame PROPERTIES CXX_EXTENSIONS OFF)
+
+target_include_directories(SokobanGame PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/SokobanGame/vendor/imgui
+)
+target_link_directories(SokobanGame PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/lib
+)
+
+target_compile_definitions(SokobanGame PRIVATE
+    SFML_STATIC
+    _CONSOLE
+    UNICODE
+    _UNICODE
+)
+
+target_link_libraries(SokobanGame PRIVATE
+    $<$<CONFIG:Debug>:sfml-graphics-s-d.lib>
+    $<$<CONFIG:Debug>:sfml-window-s-d.lib>
+    $<$<CONFIG:Debug>:sfml-system-s-d.lib>
+    $<$<NOT:$<CONFIG:Debug>>:sfml-graphics-s.lib>
+    $<$<NOT:$<CONFIG:Debug>>:sfml-window-s.lib>
+    $<$<NOT:$<CONFIG:Debug>>:sfml-system-s.lib>
+    opengl32.lib
+    winmm.lib
+    gdi32.lib
+    $<$<CONFIG:Debug>:freetyped.lib>
+    $<$<CONFIG:Debug>:harfbuzzd.lib>
+    $<$<NOT:$<CONFIG:Debug>>:freetype.lib>
+    $<$<NOT:$<CONFIG:Debug>>:harfbuzz.lib>
+)
+
+if(MSVC)
+    target_compile_options(SokobanGame PRIVATE /permissive- /sdl /W3)
+    set_property(TARGET SokobanGame PROPERTY INTERPROCEDURAL_OPTIMIZATION_RELEASE ON)
+endif()
+
+add_custom_command(TARGET SokobanGame POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_CURRENT_SOURCE_DIR}/SokobanGame/res
+        $<TARGET_FILE_DIR:SokobanGame>/res
+)
+
+set_target_properties(SokobanGame PROPERTIES
+    VS_DEBUGGER_WORKING_DIRECTORY "$<TARGET_FILE_DIR:SokobanGame>"
+)
