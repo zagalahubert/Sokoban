@@ -1,12 +1,12 @@
 # Sokoban
 
 ## Overview
-The programme is a recreation of classic Japanese game Sokoban with custom-made textures. It allows the user to create their own maps.
+The programme is a recreation of the classic Japanese game Sokoban with custom-made textures. It allows the user to create their own maps.
 
 ![Game window](projectImages/game.png)
 
 ## Features
-1. Game window is resizable  
+1. Game window is resizable
 2. Parked boxes are marked as done
 3. Counter keeps track of your time
 
@@ -15,7 +15,7 @@ Before downloading make sure you have cmake installed. To run the programme, run
 
 ```
 git clone https://github.com/zagalahubert/Sokoban.git
-cd SokobanGame
+cd Sokoban
 cmake -B build -A x64
 cmake --build build --config Release
 cd build/Release
@@ -39,7 +39,7 @@ To create a map, simply write a .txt file using format:
 - S - starting point
 - P - parking spots
 
-***Note:*** while creating a map the game **does not** provide **any validator**. For now there is also no way to choose a level at runtime. To change a map, edit "mapFileName" variable in Application.cpp.
+***Note:*** while creating a map the game **does not** provide **any validator**. For now there is also no way to choose a level at runtime. To change a map, edit `mapFileName` variable in `Application.cpp`.
 
 ## Coming...
 1. Incorporating ImGui to allow the user to load in their own map easier.
